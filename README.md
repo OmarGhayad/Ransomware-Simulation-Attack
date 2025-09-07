@@ -42,12 +42,12 @@ git clone https://github.com/your-username/ransomware-simulation.git
 cd ransomware-simulation
 ```
 
-### 2. Run the Server
+### 2. Run the Key Receiver
 
 On the target machine (Linux recommended), run:
 
 ```bash
-python3 server.py
+python3 receive_key.py
 ```
 
 This will start listening on port **8080** by default.
@@ -60,7 +60,7 @@ Edit **encrypt.py** and replace:
 SERVER_URL = "http://your ip:8080/upload"
 ```
 
-with the IP address of the machine running `server.py`.
+with the IP address of the machine running `receive_key.py`.
 
 Example:
 
@@ -80,7 +80,7 @@ All files in the directory will now be encrypted.
 
 ### 5. Run Decryptor
 
-Once the key has been retrieved by the server, place the file `received_key.key` into the encryptor’s directory and run:
+Once the key has been retrieved by the key receiver, place the file `received_key.key` into the encryptor’s directory and run:
 
 ```bash
 python3 decrypt.py
