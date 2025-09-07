@@ -17,9 +17,9 @@ This attack is created **strictly for educational and awareness purposes only**.
 
 This repository simulates a basic ransomware attack:
 
-* **encrypt.py** → Encrypts files in the current directory and sends the encryption key to a server.
-* **decrypt.py** → Decrypts the encrypted files using the key retrieved from the server.
-* **server.py** → Simple HTTP server that receives and stores the encryption key.
+* **encrypt.py** → Encrypts files in the current directory and sends the encryption key to the attacker machine.
+* **decrypt.py** → Decrypts the encrypted files using the key retrieved from the attacker.
+* **receive\_key.py** → Simple HTTP server running on the attacker machine that receives and stores the encryption key.
 
 The goal is to **educate employees or students** about the dangers of unsafe downloads and the importance of security awareness.
 
@@ -27,8 +27,8 @@ The goal is to **educate employees or students** about the dangers of unsafe dow
 
 ## ⚙️ How It Works
 
-1. The **server** must be started first to receive and store the encryption key.
-2. The **encryptor** script encrypts all files in the working directory (except the scripts themselves) and sends the key to the server.
+1. The **attacker machine** must run the key receiver first to receive and store the encryption key.
+2. The **encryptor** script encrypts all files in the working directory (except the scripts themselves) and sends the key to the attacker.
 3. The **decryptor** script restores the files using the saved key.
 
 ---
@@ -42,9 +42,9 @@ git clone https://github.com/your-username/ransomware-simulation.git
 cd ransomware-simulation
 ```
 
-### 2. Run the Key Receiver
+### 2. Run the Key Receiver (on attacker machine)
 
-On the target machine (Linux recommended), run:
+On the **attacker machine** (Linux recommended), run:
 
 ```bash
 python3 receive_key.py
@@ -52,7 +52,7 @@ python3 receive_key.py
 
 This will start listening on port **8080** by default.
 
-### 3. Configure Encryptor
+### 3. Configure Encryptor (on victim machine)
 
 Edit **encrypt.py** and replace:
 
@@ -60,7 +60,7 @@ Edit **encrypt.py** and replace:
 SERVER_URL = "http://your ip:8080/upload"
 ```
 
-with the IP address of the machine running `receive_key.py`.
+with the IP address of the **attacker machine** running `receive_key.py`.
 
 Example:
 
@@ -68,9 +68,9 @@ Example:
 SERVER_URL = "http://192.168.1.100:8080/upload"
 ```
 
-### 4. Run Encryptor
+### 4. Run Encryptor (on victim machine)
 
-On the victim simulation machine, run:
+On the **victim simulation machine**, run:
 
 ```bash
 python3 encrypt.py
@@ -78,9 +78,9 @@ python3 encrypt.py
 
 All files in the directory will now be encrypted.
 
-### 5. Run Decryptor
+### 5. Run Decryptor (on victim machine)
 
-Once the key has been retrieved by the key receiver, place the file `received_key.key` into the encryptor’s directory and run:
+Once the key has been retrieved by the attacker, place the file `received_key.key` into the victim’s directory and run:
 
 ```bash
 python3 decrypt.py
